@@ -41,10 +41,10 @@ jobs:
         run: npm ci
 
       - name: Copy Quartz config
-        run: cp homo/quartz/quartz.config.ts quartz-engine/quartz.config.ts
+        run: cp quartz/quartz.config.ts quartz-engine/quartz.config.ts
 
       - name: Copy content to Quartz
-        run: rsync -av --exclude='quartz' --exclude='.git' --exclude='.github' --exclude='*.md' --exclude='*.toml' --exclude='*.json' --exclude='assets' homo/ quartz-engine/content/
+        run: rsync -av --exclude='quartz' --exclude='.git' --exclude='.github' --exclude='*.toml' --exclude='*.json' --exclude='assets' . quartz-engine/content/
 
       - name: Build Quartz
         working-directory: ./quartz-engine
