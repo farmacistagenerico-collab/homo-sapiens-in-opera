@@ -4,14 +4,12 @@
   "description": "Homo Sapiens in Opera — Laboratorio vivente per capacità umane",
   "type": "module",
   "scripts": {
-    "build": "quartz build --directory ../",
-    "dev": "quartz build --directory ../ --serve",
-    "preview": "quartz build --directory ../ --serve --port 4321"
+    "build": "node quartz/build.mjs --directory ../",
+    "dev": "node quartz/build.mjs --directory ../ --serve",
+    "preview": "node quartz/build.mjs --directory ../ --serve --port 4321"
   },
   "keywords": ["quartz", "blog", "obsidian", "homo-sapiens"],
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "quartz": "latest"
-  }
+  "devDependencies": {}
 }

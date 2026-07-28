@@ -1,6 +1,6 @@
-import { defineConfig } from "quartz/cfg"
-import * as Plugin from "quartz/plugins"
-import * as Component from "quartz/components"
+import { defineConfig } from "./quartz/cfg"
+import * as Plugin from "./quartz/plugins"
+import * as Component from "./quartz/components"
 
 export default defineConfig({
   configuration: {
@@ -84,9 +84,9 @@ export default defineConfig({
         enableSiteMap: true,
         enableRSS: true,
       }),
-      Plugin.RobotsTxt(),
-      Plugin.Sitemap(),
-      Plugin.SocialImages(),
+      Plugin.Favicon(),
+      Plugin.CNAME(),
+      Plugin.CustomOgImages(),
     ],
   },
   components: {
@@ -133,7 +133,7 @@ export default defineConfig({
       Component.Footer({
         links: {
           "GitHub": "https://github.com/utente/homo-sapiens-in-opera",
-          "RSS": "/rss.xml",
+          "RSS": "/index.xml",
         },
       }),
     ],

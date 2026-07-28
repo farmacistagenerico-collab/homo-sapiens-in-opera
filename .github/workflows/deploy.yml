@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: quartz-engine/package-lock.json
 
@@ -43,14 +43,17 @@ jobs:
       - name: Copy Quartz config
         run: cp homo/quartz/quartz.config.ts quartz-engine/quartz.config.ts
 
+      - name: Copy content to Quartz
+        run: rsync -av --exclude='quartz' --exclude='.git' --exclude='.github' --exclude='*.md' --exclude='*.toml' --exclude='*.json' --exclude='assets' homo/ quartz-engine/content/
+
       - name: Build Quartz
         working-directory: ./quartz-engine
-        run: npx quartz build --directory ../homo
+        run: npx quartz build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./quartz-engine/public
 
   deploy:
     needs: build
