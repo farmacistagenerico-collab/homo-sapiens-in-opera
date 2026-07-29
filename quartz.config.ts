@@ -1,6 +1,5 @@
 import { defineConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import * as Component from "./quartz/components"
 
 export default defineConfig({
   configuration: {
