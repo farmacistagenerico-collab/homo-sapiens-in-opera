@@ -1,4 +1,4 @@
-import { defineConfig } from "./quartz/cfg"
+import defineConfig from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
 export default defineConfig({
