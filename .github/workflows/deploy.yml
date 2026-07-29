@@ -3,14 +3,14 @@ name: Build and Deploy Homo Sapiens in Opera
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Evita deploy sovrapposti: una build alla volta
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -19,12 +19,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (contenuto)
+      - name: Checkout repository (contenuti)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Checkout Quartz v4 (motore di build)
+      # Quartz v4 NON è distribuito come pacchetto npm.
+      # Lo cloniamo come "engine" di build, nello stesso modo documentato
+      # dalla guida ufficiale (https://quartz.jzhao.xyz/).
+      - name: Checkout Quartz v4 engine
         uses: actions/checkout@v4
         with:
           repository: jackyzha0/quartz
@@ -32,36 +35,52 @@ jobs:
           path: quartz-engine
           fetch-depth: 0
 
-      - name: Setup Node.js 22
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: quartz-engine/package-lock.json
+          node-version: '20'
 
-      - name: Install Quartz dependencies
+      - name: Install Quartz engine dependencies
         working-directory: ./quartz-engine
         run: npm ci
 
+      # Porta la configurazione dentro l'engine.
+      # L'engine si aspetta quartz.config.ts nella sua root.
       - name: Copy quartz.config.ts into engine
-        run: cp quartz.config.ts quartz-engine/quartz.config.ts
+        run: cp -f quartz.config.ts quartz-engine/quartz.config.ts
 
-      - name: Prepare content directory
+      # Tutti i .md del repo diventano il "content/" dell'engine.
+      # Escludiamo i file di build/config che non sono contenuti.
+      - name: Mirror content into engine
         run: |
           mkdir -p quartz-engine/content
           rsync -av \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='quartz-engine' \
+            --exclude='.gitignore' \
             --exclude='quartz.config.ts' \
-            --exclude='netlify.toml' \
             --exclude='package.json' \
             --exclude='package-lock.json' \
-            . quartz-engine/content/
+            --exclude='tsconfig.json' \
+            --exclude='netlify.toml' \
+            --exclude='README.md' \
+            ./ quartz-engine/content/
 
       - name: Build site with Quartz
         working-directory: ./quartz-engine
-        run: npx quartz build --directory content --output public
+        run: npx quartz build
+
+      - name: Verify build output exists
+        working-directory: ./quartz-engine
+        run: |
+          if [ ! -d public ] || [ -z "$(ls -A public 2>/dev/null)" ]; then
+            echo "::error::Build output (public/) is missing or empty"
+            exit 1
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

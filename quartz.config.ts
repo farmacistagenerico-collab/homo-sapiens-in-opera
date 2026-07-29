@@ -1,7 +1,7 @@
-import { defineConfig } from "./quartz/cfg"
+import type { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
-export default defineConfig({
+const config: QuartzConfig = {
   configuration: {
     pageTitle: "Homo Sapiens in Opera",
     pageTitleSuffix: " — Homo Sapiens in Opera",
@@ -86,4 +86,6 @@ export default defineConfig({
       Plugin.NotFoundPage(),
     ],
   },
-})
+}
+
+export default config
