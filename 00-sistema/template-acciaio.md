@@ -10,7 +10,7 @@ tags: ["acciaio"]
 
 # Acciaio #{{numero}} — {{titolo}}
 
-> **Capacità**: `{{capacita}}`  |  **Rubrica**: `acciaio`  |  **Libri**: {{#if libri.length}}`{{join libri ", "`}}`{{else}}—{{/if}}
+> **Capacità**: `{{capacita}}`  |  **Rubrica**: `acciaio`  |  **Libri**: {% if libri.size > 0 %}`{{ libri | join: ", " }}`{% else %}—{% endif %}
 
 ---
 

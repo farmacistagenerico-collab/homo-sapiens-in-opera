@@ -8,13 +8,10 @@ export default defineConfig({
     pageTitleSuffix: " — Homo Sapiens in Opera",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-      domain: "homo-sapiens.in-opera.com",
-    },
+    analytics: null,
     locale: "it-IT",
-    baseUrl: "https://homo-sapiens.in-opera.com",
-    ignorePatterns: ["00-sistema", "templates", "*.md", "!content"],
+    baseUrl: "farmacistagenerico-collab.github.io/homo-sapiens-in-opera",
+    ignorePatterns: ["00-sistema", "templates", ".obsidian", "assets"],
     defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",
@@ -72,7 +69,8 @@ export default defineConfig({
     ],
     filters: [
       Plugin.RemoveDrafts(),
-      Plugin.ExplicitPublish(),
+      // ExplicitPublish rimosso: tutti i .md vengono pubblicati
+      // Aggiungilo di nuovo se vuoi pubblicare solo file con "publish: true"
     ],
     emitters: [
       Plugin.AliasRedirects(),
@@ -84,58 +82,9 @@ export default defineConfig({
         enableSiteMap: true,
         enableRSS: true,
       }),
-      Plugin.Favicon(),
-      Plugin.CNAME(),
-      Plugin.CustomOgImages(),
-    ],
-  },
-  components: {
-    head: [
-      Component.NotFound(),
-      Component.Redirect(),
-      Component.SocialImages(),
-      Component.Theme(),
-      Component.MobileOnly(),
-      Component.Links({
-        links: [
-          { href: "/curriculum", title: "Curriculum" },
-          { href: "/tags", title: "Tag" },
-          { href: "https://github.com/utente/homo-sapiens-in-opera", title: "GitHub", external: true },
-        ],
-      }),
-    ],
-    header: [
-      Component.PageTitle(),
-      Component.Search(),
-      Component.Darkmode(),
-      Component.DesktopOnly(Component.Explorer({
-        title: "Rubriche",
-        folderSortOrder: ["01-specchio", "02-bussola", "03-acciaio", "04-lettera", "05-bilancio", "06-libro-mese", "99-meta"],
-        useSavedState: true,
-      })),
-    ],
-    left: [
-      Component.DesktopOnly(Component.TableOfContents()),
-    ],
-    right: [
-      Component.Graph({
-        localGraph: {
-          showTags: true,
-          maxDepth: 2,
-        },
-        globalGraph: {
-          showTags: true,
-          maxDepth: 1,
-        },
-      }),
-    ],
-    footer: [
-      Component.Footer({
-        links: {
-          "GitHub": "https://github.com/utente/homo-sapiens-in-opera",
-          "RSS": "/index.xml",
-        },
-      }),
+      Plugin.Assets(),
+      Plugin.Static(),
+      Plugin.NotFoundPage(),
     ],
   },
 })
