@@ -1,35 +1,10 @@
-[build]
-  base = "quartz"
-  command = "npm run build"
-  publish = "../public"
-
-[build.environment]
-  NODE_VERSION = "20"
-
-[[redirects]]
-  from = "/curriculum/"
-  to = "/curriculum"
-  status = 301
-
-[[redirects]]
-  from = "/tags/"
-  to = "/tags"
-  status = 301
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+# Build artifact (Netlify config disattivato: deploy ora su GitHub Pages via .github/workflows/deploy.yml)
+# Ripristinare qui se in futuro vuoi tornare a Netlify.
+#
+# [build]
+#   base = "."
+#   command = "npm run build"
+#   publish = "public"
+#
+# [build.environment]
+#   NODE_VERSION = "20"
