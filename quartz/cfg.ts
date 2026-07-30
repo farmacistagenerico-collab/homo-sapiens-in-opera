@@ -4,9 +4,10 @@
 
 export type QuartzConfig<T = Record<string, any>> = T;
 
-export function defineConfig<T extends Record<string, any>>(cfg: T): T {
+// Export as a const (ESM-friendly) so `import { defineConfig }` reliably resolves
+export const defineConfig = <T extends Record<string, any>>(cfg: T): T => {
   return cfg;
-}
+};
 
-// Provide a default export as a convenience for consumers using default imports
+// keep default export for consumers that import default
 export default defineConfig;
