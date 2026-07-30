@@ -35,10 +35,21 @@ jobs:
           path: quartz-engine
           fetch-depth: 0
 
-      - name: Setup Node.js 20
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22.x'
+
+      - name: Verify Node and npm versions
+        run: |
+          node -v
+          npm -v
+
+      - name: Ensure npm >= 10.9.2
+        run: |
+          corepack enable
+          corepack prepare npm@10.9.2 --activate
+          npm -v
 
       - name: Install Quartz engine dependencies
         working-directory: ./quartz-engine
