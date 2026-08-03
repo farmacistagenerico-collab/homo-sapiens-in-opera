@@ -1,4 +1,4 @@
-import defineConfig from "./quartz/cfg"
+﻿import defineConfig from "./quartz/cfg"
 import type { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
@@ -78,6 +78,7 @@ const config: QuartzConfig = {
       Plugin.ContentPage(),
       Plugin.FolderPage(),
       Plugin.TagPage(),
+      Plugin.Graph(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
